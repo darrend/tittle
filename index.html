@@ -9,39 +9,8 @@ $('#note').live('focus', function() {
   before = $(this).html();
 }).live('blur keyup paste', function() { 
   if (before != $(this).html()) { $(this).trigger('change'); }
-});
-
-$('#note').live('change', function() {
-  var text = $(this).text();
-  var canvas = $("#code canvas");
-  if(canvas.size()==0) {
-      $('#code').append("<canvas ></canvas>")
-      canvas = $('#code canvas')
-  }
-  
-  var block_size = 3;
-  var qr = new QRCode(10, QRErrorCorrectLevel.L);
-  qr.addData(text);
-  qr.make();
-  var module_count = qr.getModuleCount();
-  
-  canvas.attr('width',module_count*block_size);
-  canvas.attr('height',module_count*block_size);
-  
-  var context = canvas[0].getContext('2d');
-  context.fillStyle = "rgb(255,255,255)";
-  context.fillRect(0,0,canvas.attr('width'),canvas.attr('height'));
-   
-  context.fillStyle = "rgb(0,0,0)";
-  for(var row=0; row < module_count; row++) {
-    for(var col=0; col < module_count; col++) {
-      if(qr.isDark(col,row)) {
-        context.fillRect(row*block_size,col*block_size,block_size,block_size);
-      }
-    }
-  }
-  
-  
+}).live('change', function() {
+  render_as_qrcode($(this).text(),'#code');
 });
 
 </script>
@@ -50,6 +19,7 @@ $('#note').live('change', function() {
 <div id="note" contentEditable=true>
 
 </div>
+<br/>
 <div id="code"> 
 </div> 
 </body>
