@@ -5,20 +5,17 @@
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js"></script>
 <script type="text/javascript" src="qrcodecanvas.js"></script> 
 <script type="text/javascript">
-$('#note').live('focus', function() {
-  before = $(this).html();
-}).live('blur keyup paste', function() { 
-  if (before != $(this).html()) { $(this).trigger('change'); }
+$('#notecontent').live('blur keyup paste', function() { 
+  $(this).trigger('change');
 }).live('change', function() {
-  render_as_qrcode($(this).text(),'#code');
+  render_as_qrcode($(this).val(),'#code');
 });
-
 </script>
 </head>
 <body>
-<div id="note" contentEditable=true>
-
-</div>
+<form>
+<textarea id="notecontent" placeholder="Type your note if you dare."></textarea>
+</form>
 <br/>
 <div id="code"> 
 </div> 
